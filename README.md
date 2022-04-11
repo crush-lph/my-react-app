@@ -57,3 +57,26 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 4、`git add .`
 5、`git commit -m 'xxx'`
 6、`git push -u origin main`
+
+# react+ts 配置别名
+
+`npm run eject` 抛出配置文件
+
+在config文件夹找到webpack.config.js文件   搜索alias
+
+```js
+'@':path:resolve(__dirname,'../src')
+```
+
+找到根目录的tsconfig文件  在compilerOptions中配置
+
+```json
+"baseUrl":"./",
+"paths":{
+  "@/*":["src/*"]
+}
+```
+
+引入项目时就可以更改src路径为@
+
+重启项目
