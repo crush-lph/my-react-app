@@ -44,3 +44,16 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# 创建react应用  
+
+`npx create-react-app my-react-app`
+
+# 上传git
+
+1、在git上创建一个空仓库
+2、在本地执行 `git remote git地址`
+3、`git branch -M main` 将master分支更名为main
+4、`git add .`
+5、`git commit -m 'xxx'`
+6、`git push -u origin main`
