@@ -80,3 +80,20 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 引入项目时就可以更改src路径为@
 
 重启项目
+
+在根目录添加jsconfig.json 文件
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
+  }
+}
+```
+
+这样编译器就知道我们的别名路径并给予提示
