@@ -12,7 +12,6 @@ class LoginStore {
   login = async ({ username, password }) => {
     // 调用登录接口
     const res = await http.post('api/users/login', { email: username, password })
-    console.log(res);
     // 存入token
     this.token = res.data.token
     // 存localStorage

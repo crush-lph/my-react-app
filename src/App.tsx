@@ -7,6 +7,7 @@ import './app.less'
 import Home from './pages/Home';
 import Article from './pages/Article'
 import Publish from './pages/Publish'
+import AuthCom from '@/components/AuthCom'
 
 function App() {
   return (
@@ -15,7 +16,11 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login />} />
-          <Route path='/' element={<MainLayout />} >
+          <Route path='/' element={
+            <AuthCom>
+              <MainLayout />
+            </AuthCom>
+          } >
             <Route index element={<Home />} />
             <Route path='nurse' element={<Article />} />
             <Route path='doctor' element={<Publish />} />
