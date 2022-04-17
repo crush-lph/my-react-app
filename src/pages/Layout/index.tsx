@@ -1,5 +1,6 @@
 import { Dropdown, Layout, Menu, Popconfirm } from 'antd'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
+// 刷新页面后要要将store和组件重新连接
 import { observer } from 'mobx-react-lite'
 import {
   HomeOutlined,
@@ -11,6 +12,8 @@ import {
 import './index.less'
 import { useStore } from '@/store'
 import { useEffect } from 'react'
+import { userInfo } from 'os'
+import { token } from '@/utils'
 
 
 const { Header, Sider } = Layout
@@ -18,18 +21,17 @@ const { Header, Sider } = Layout
 const MainLayout = () => {
   // 获取当前的路径
   const { pathname } = useLocation()
-  // const { userStore, loginStore, channelStore } = useStore()
-  // userStore.getUserInfo()?
-  // useEffect(() => {
-  //   userStore.getUserInfo()
-  //   channelStore.loadChannelList()
-  // }, [userStore, channelStore])
+  const { UserStore, LoginStore } = useStore()
+
+  useEffect(() => {
+    // 获取当前用户信息
+    UserStore.getUserInfo()
+  }, [])
 
   // 确定退出
   const navigate = useNavigate()
   const onConfirm = () => {
-    // 退出登录 删除token 跳回到登录
-    // loginStore.loginOut()
+    LoginStore.logOut()
     navigate('/login')
   }
 
@@ -44,7 +46,7 @@ const MainLayout = () => {
       <Menu.Item key='changePassword'>
         修改密码
       </Menu.Item>
-      <Menu.Item danger onClick={onConfirm}>
+      <Menu.Item key='logOut' danger onClick={onConfirm}>
         <LogoutOutlined />退出登录
       </Menu.Item>
     </Menu>
@@ -56,10 +58,12 @@ const MainLayout = () => {
           <div className="logo" />
           <Dropdown overlay={menu}>
             <div className="user">
-              <div className='avatar'></div>
+              <div className='avatar'>
+                <img src={UserStore.userInfo.avatar} alt="" />
+              </div>
               <div className='user-info'>
-                <span className='name'>李鹏虎</span>
-                <span className='role'>管理员</span>
+                <span className='name'>{UserStore.userInfo.email}</span>
+                <span className='role'>{UserStore.userInfo.identity}</span>
               </div>
             </div>
           </Dropdown>

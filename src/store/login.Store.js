@@ -18,6 +18,10 @@ class LoginStore {
     // console.log(res);
     token.setToken(this.token)
   }
+  logOut = () => {
+    this.token = ''
+    token.removeToken()
+  }
 }
 
 

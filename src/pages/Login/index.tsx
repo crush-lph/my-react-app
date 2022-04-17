@@ -7,13 +7,7 @@ import { useStore } from '@/store'
 export default function Login() {
   const navigate = useNavigate()
   const { LoginStore } = useStore()
-  // type valT = {
-  //   username: any;
-  //   password: any;
-  // }
   const onFinish = async (values: any) => {
-    // console.log('Success:', values);
-    //TODO:登录
     // @ts-ignore
     try {
       await LoginStore.login(values)
@@ -22,8 +16,6 @@ export default function Login() {
     } catch (e) {
       message.error('登录失败')
     }
-    // LoginStore.login(values)
-    // navigate('/', { replace: true })
   };
 
   return (

@@ -81,3 +81,33 @@ module.exports = function (app) {
   )
 }
 ```
+
+# token
+
+登录成功后会获得一个token  这个值存在localStorage中  
+配置axios 的请求拦截器  在每一次的请求头中添加请求头  authorization  = token
+如果token过期之后，会返回401状态码 在响应拦截器中拦截到401状态码的请求，就返回到登录页
+另外react 在非组件中不可以调用react router的方法进行路由跳转
+就需要安装一个history包
+使用history跳转
+另外还需要在App中将包裹routes的BrowserRouter替换为HistoryRouter
+
+```jsx
+import {Routes, Route, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+
+const history = createBrowserHistory()
+
+<HistoryRouter history={history}>
+  <Routes>
+    <Route/>
+  </Routes>
+</HistoryRouter>
+```
+
+```js
+//axios中
+import { createBrowserHistory } from 'history'
+const history = createBrowserHistory()
+history.push('/login')
+```

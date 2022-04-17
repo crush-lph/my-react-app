@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
 import 'antd/dist/antd.min.css'
 import MainLayout from './pages/Layout';
 import Login from '@/pages/Login';
@@ -8,11 +8,12 @@ import Home from './pages/Home';
 import Article from './pages/Article'
 import Publish from './pages/Publish'
 import AuthCom from '@/components/AuthCom'
+import { history } from '@/utils'
 
 function App() {
   return (
     // 路由配置
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login />} />
@@ -28,7 +29,7 @@ function App() {
           </Route>
         </Routes>
       </div>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

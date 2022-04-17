@@ -4,7 +4,6 @@ class Token {
   key = 'pc-key'
 
   setToken = (token) => {
-    console.log(token);
     return window.localStorage.setItem(this.key, token)
   }
   getToken = () => {
