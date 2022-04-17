@@ -1,0 +1,60 @@
+.ant-layout {
+  height: 100%;
+}
+
+.header {
+  padding: 0;
+}
+
+.header-container{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  
+  .logo {
+    align-self: flex-start;
+    width: 200px;
+    height: 60px;
+    background: url('../../assests/logo.png') no-repeat center / 160px auto;
+  }
+
+  .user {
+    // height: 100%;
+    display:flex;
+    padding-right: 20px;
+    color: #fff;
+  .avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ccc;
+    align-self: center;
+    margin-right: 15px;
+  }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      >span {
+        padding: 5px;
+        line-height: 100%;
+        
+      }
+      .role{
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+
+.layout-content {
+  overflow-y: auto;
+}
+
+
+.ant-layout-header {
+  padding: 0 !important;
+}
