@@ -21,7 +21,8 @@ export default function Login() {
   return (
     <div className='login'>
       <Card className='login-container'>
-        <div className='login-logo'></div>
+        <div className='login-logo'>
+        </div>
         <Form
           onFinish={onFinish}
         >
