@@ -1,50 +1,3 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
 # 创建react应用  
 
 `npx create-react-app my-react-app`
@@ -97,3 +50,34 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ```
 
 这样编译器就知道我们的别名路径并给予提示
+
+# 前端跨域
+
+1、在package.json 中配置一个proxy:'http://localhost:5001'
+2、安装`http-proxy-middleware`
+> `npm add http-proxy-middleware`
+
+在 src目录下创建setupProxy.js 输入以下内容
+
+```js
+// const proxy = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
+
+module.exports = function (app) {
+  // /api 表示代理路径
+  // target 表示目标服务器的地址
+  app.use(
+    // proxy('/api', {
+    createProxyMiddleware("/api", {
+      // http://localhost:4000/ 地址只是示例，实际地址以项目为准
+      target: 'http://localhost:5001',
+      // 跨域时一般都设置该值 为 true
+      changeOrigin: true,
+      // 重写接口路由
+      // pathRewrite: {
+      //   '^/api': '' // 这样处理后，最终得到的接口路径为： http://localhost:8080/xxx
+      // }
+    })
+  )
+}
+```

@@ -1,10 +1,10 @@
 // npm add mobx mobx-react-lite
 import { makeAutoObservable } from 'mobx'
-import { http } from '@/utils'
+import { http, token } from '@/utils'
 
 
 class LoginStore {
-  token = ''
+  token = token.getToken() || ''
   constructor() {
     // 响应式
     makeAutoObservable(this)
@@ -14,7 +14,10 @@ class LoginStore {
     const res = await http.post('api/users/login', { email: username, password })
     console.log(res);
     // 存入token
-    this.token = res.data
+    this.token = res.data.token
+    // 存localStorage
+    // console.log(res);
+    token.setToken(this.token)
   }
 }
 

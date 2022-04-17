@@ -11,13 +11,19 @@ export default function Login() {
   //   username: any;
   //   password: any;
   // }
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     // console.log('Success:', values);
     //TODO:登录
     // @ts-ignore
-    LoginStore.login(values)
+    try {
+      await LoginStore.login(values)
+      navigate('/', { replace: true })
+      message.success('登录成功')
+    } catch (e) {
+      message.error('登录失败')
+    }
+    // LoginStore.login(values)
     // navigate('/', { replace: true })
-    // message.success('登录成功')
   };
 
   return (
