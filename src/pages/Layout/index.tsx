@@ -7,14 +7,15 @@ import {
   DiffOutlined,
   EditOutlined,
   LogoutOutlined,
-  DownOutlined
+  DownOutlined,
+  IdcardOutlined,
+  UsergroupAddOutlined,
+  UserAddOutlined
 } from '@ant-design/icons'
 import './index.less'
 import { useStore } from '@/store'
 import { useEffect } from 'react'
-import { userInfo } from 'os'
 import { token } from '@/utils'
-
 
 const { Header, Sider } = Layout
 
@@ -55,7 +56,9 @@ const MainLayout = () => {
     <Layout>
       <Header className="header">
         <div className="header-container">
-          <div className="logo" />
+          <Link to='/'>
+            <div className="logo" />
+          </Link>
           <Dropdown overlay={menu}>
             <div className="user">
               <div className='avatar'>
@@ -82,10 +85,16 @@ const MainLayout = () => {
               <Link to='/'>首页</Link>
             </Menu.Item>
             <Menu.Item icon={<DiffOutlined />} key="/nurse">
-              <Link to="/nurse">内容管理</Link>
+              <Link to="/nurse">护士管理</Link>
             </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="/doctor">
-              <Link to='/doctor'> 发布文章</Link>
+            <Menu.Item icon={<UsergroupAddOutlined />} key="/doctor">
+              <Link to='/doctor'>医生管理</Link>
+            </Menu.Item>
+            <Menu.Item icon={<IdcardOutlined />} key="/patient">
+              <Link to='/patient'>患者管理</Link>
+            </Menu.Item>
+            <Menu.Item icon={<UserAddOutlined />} key="/employee">
+              <Link to='/employee'>员工管理</Link>
             </Menu.Item>
           </Menu>
         </Sider>

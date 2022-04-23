@@ -23,13 +23,15 @@ http.interceptors.response.use((response) => {
   return response
 }, error => {
   const { status } = error.response;
-  // 如果状态码是401 说明token过期了
-  if (status == 401) {
-    message.error('登录过期，请重新登录！')
+  if (!error.response) {
+    // 如果response为und  说明网络出现问题
+    message.error('网络异常')
+  } else if (status === 401) {
+    // 如果状态码是401 说明token过期了
+    message.error('登录过期,请重新登录')
     token.removeToken()
-    history.push('./login')
     // react router并不支持在组件之外使用
-
+    history.push('./login')
   }
   return Promise.reject(error)
 })

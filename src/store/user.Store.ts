@@ -10,6 +10,8 @@ export default class UserStore {
     name?: string | number
     avatar?: string | undefined
   } = {}
+
+  userList = {}
   constructor() {
     makeAutoObservable(this)
   }
@@ -17,5 +19,16 @@ export default class UserStore {
     // 调用接口
     const res = await http.get('/api/users/current')
     this.userInfo = res.data
+  }
+  getAllUser = async () => {
+    // 调用接口
+    // const res = await http.get('/api/users')
+    return http.get('/api/users')
+
+    // this.userList = res.data
+    // return res.data
+  }
+  addUser = async (params: object) => {
+    await http.post('/api/users/register', params)
   }
 }

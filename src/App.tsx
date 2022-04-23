@@ -6,9 +6,10 @@ import Login from '@/pages/Login';
 import './app.less'
 import Home from './pages/Home';
 import Article from './pages/Article'
-import Publish from './pages/Publish'
+import Doctor from './pages/Doctor'
 import AuthCom from '@/components/AuthCom'
 import { history } from '@/utils'
+import Employee from './pages/Employees';
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
           } >
             <Route index element={<Home />} />
             <Route path='nurse' element={<Article />} />
-            <Route path='doctor' element={<Publish />} />
-            <Route path='patient' element={<Publish />} />
+            <Route path='doctor' element={<Doctor />} />
+            <Route path='patient' element={<Doctor />} />
+            <Route path='employee' element={<Employee />} />
           </Route>
         </Routes>
       </div>
