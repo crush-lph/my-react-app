@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Radio, Input } from 'antd';
+import { Modal, Button, Form, Radio, Input, Select, DatePicker } from 'antd';
 interface Iprops {
   visible: boolean;
   setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 type LayoutType = Parameters<typeof Form>[0]['layout'];
+
+const { Option } = Select
 
 const App = ({ visible, setIsModalVisible }: Iprops) => {
   const [form] = Form.useForm();
@@ -47,6 +50,7 @@ const App = ({ visible, setIsModalVisible }: Iprops) => {
         onCancel={handleCancel}
         okText="确认"
         cancelText="取消"
+        width={600}
       >
         <Form
           {...formItemLayout}
@@ -55,17 +59,36 @@ const App = ({ visible, setIsModalVisible }: Iprops) => {
           initialValues={{ layout: formLayout }}
           onValuesChange={onFormLayoutChange}
         >
-          <Form.Item label="Form Layout" name="layout">
+          <Form.Item label="职位" name="layout">
             <Radio.Group value={formLayout}>
-              <Radio.Button value="horizontal">医生</Radio.Button>
-              <Radio.Button value="vertical">护士</Radio.Button>
-              <Radio.Button value="inline">Inline</Radio.Button>
+              <Select>
+                <Option value='doctor'>医生</Option>
+                <Option value='nurse'>护士</Option>
+              </Select>
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="Field A">
+          <Form.Item label="姓名">
             <Input placeholder="input placeholder" />
           </Form.Item>
-          <Form.Item label="Field B">
+          <Form.Item label="入职时间">
+            <DatePicker placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="科室">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="地址">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="性别">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="联系方式">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="学历">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="联系方式">
             <Input placeholder="input placeholder" />
           </Form.Item>
         </Form>

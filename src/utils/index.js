@@ -2,9 +2,11 @@
 import { http } from './http'
 import token from './token'
 import { history } from './history'
+import downLoadXLS from './DownLoadXls'
 
 export {
   http,
   token,
-  history
+  history,
+  downLoadXLS
 }
