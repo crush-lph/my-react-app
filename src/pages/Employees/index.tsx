@@ -34,8 +34,16 @@ const Employee = () => {
     setCurrentDetail(record)
   }
 
+  const deleteUser = (id: string) => {
+    UserStore.deleteUser(id).then(res => {
+      getTableData()
+    }
+    )
+  }
+
   // 导出表格
   const exportData = () => {
+
     downLoadXLS('员工信息', [{
       sheetData: [{ a: 1, b: 2 }, { c: 3, d: 4 }],
       sheetHeader: ['a', 'b'],
@@ -43,6 +51,7 @@ const Employee = () => {
       columnWidths: [20, 20]
     }])
   }
+
 
 
 
@@ -79,7 +88,13 @@ const Employee = () => {
               openDetail(record)
             }}></Button>
           <Button icon={<EditOutlined />} type='link'></Button>
-          <Button danger icon={<DeleteOutlined />} type='link'></Button>
+          <Button danger
+            onClick={() => {
+              deleteUser(record._id)
+            }}
+            icon={<DeleteOutlined />}
+            type='link'>
+          </Button>
         </div >
       ),
     },

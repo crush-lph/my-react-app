@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx"
 import { http } from '@/utils'
+import { AxiosRequestConfig } from "axios"
 
 export default class UserStore {
 
@@ -30,5 +31,9 @@ export default class UserStore {
   }
   addUser = async (params: object) => {
     await http.post('/api/users/register', params)
+  }
+
+  deleteUser = async (id: string) => {
+    await http.post(`/api/users/delete`, { id: id } as AxiosRequestConfig<any>)
   }
 }
