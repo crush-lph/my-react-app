@@ -8,7 +8,7 @@ interface Ioption {
 type Idata = {
   sheetData: any[]
   sheetName?: string;
-  sheetFilter?: any[]
+  sheetFilter?: string[]
   sheetHeader?: string[]
   columnWidths?: number[]
 }

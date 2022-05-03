@@ -2,6 +2,14 @@ import { makeAutoObservable } from "mobx"
 import { http } from '@/utils'
 import { AxiosRequestConfig } from "axios"
 
+declare namespace Service {
+  interface register {
+    code: string | number
+    date: object,
+    msg: string
+  }
+}
+
 export default class UserStore {
 
   userInfo: {
@@ -12,7 +20,7 @@ export default class UserStore {
     avatar?: string | undefined
   } = {}
 
-  userList = {}
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -22,16 +30,14 @@ export default class UserStore {
     this.userInfo = res.data
   }
   getAllUser = async () => {
-    // 调用接口
-    // const res = await http.get('/api/users')
     return http.get('/api/users')
+  }
 
-    // this.userList = res.data
-    // return res.data
+  addUser = (params: object): Promise<Service.register> => {
+    return Promise.resolve(http.post('/api/users/register', params))
   }
-  addUser = async (params: object) => {
-    await http.post('/api/users/register', params)
-  }
+
+
 
   deleteUser = async (id: string) => {
     await http.post(`/api/users/delete`, { id: id } as AxiosRequestConfig<any>)

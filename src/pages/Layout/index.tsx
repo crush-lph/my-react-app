@@ -1,4 +1,5 @@
-import { Dropdown, Layout, Menu, Popconfirm } from 'antd'
+import { Avatar, Dropdown, Layout, Menu, MenuProps, Popconfirm } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 // 刷新页面后要要将store和组件重新连接
 import { observer } from 'mobx-react-lite'
@@ -10,11 +11,13 @@ import {
   DownOutlined,
   IdcardOutlined,
   UsergroupAddOutlined,
-  UserAddOutlined
+  UserAddOutlined,
+  KeyOutlined,
+  UnlockOutlined
 } from '@ant-design/icons'
 import './index.less'
 import { useStore } from '@/store'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { token } from '@/utils'
 
 const { Header, Sider } = Layout
@@ -36,6 +39,7 @@ const MainLayout = () => {
     navigate('/login')
   }
 
+  // 下拉菜单菜单配置
   const menu = (
     <Menu>
       <Menu.Item key='/'>
@@ -52,6 +56,7 @@ const MainLayout = () => {
       </Menu.Item>
     </Menu>
   );
+
   return (
     <Layout>
       <Header className="header">
@@ -62,7 +67,8 @@ const MainLayout = () => {
           <Dropdown overlay={menu}>
             <div className="user">
               <div className='avatar'>
-                <img src={UserStore.userInfo.avatar} alt="" />
+                {/* <img src={UserStore.userInfo.avatar} alt="" /> */}
+                <Avatar size={48} icon={<UserOutlined />} />
               </div>
               <div className='user-info'>
                 <span className='name'>{UserStore.userInfo.email}</span>
@@ -94,8 +100,19 @@ const MainLayout = () => {
               <Link to='/patient'>患者管理</Link>
             </Menu.Item>
             <Menu.Item icon={<UserAddOutlined />} key="/employee">
-              <Link to='/employee'>员工管理</Link>
+              <Link to='/employee'>员工注册</Link>
             </Menu.Item>
+            {/* <Menu.Item icon={<UnlockOutlined />} key="/rights">
+              <Link to='/rights'>权限管理</Link>
+            </Menu.Item> */}
+            <Menu.SubMenu key="/rights" title="权限管理" icon={<UnlockOutlined />}>
+              <Menu.Item key="/rights/role" >
+                <Link to='/rights/role'>角色管理</Link>
+              </Menu.Item>
+              <Menu.Item key="/rights/user" >
+                <Link to='/rights/user'>用户管理</Link>
+              </Menu.Item>
+            </Menu.SubMenu>
           </Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>

@@ -10,6 +10,7 @@ import Doctor from './pages/Doctor'
 import AuthCom from '@/components/AuthCom'
 import { history } from '@/utils'
 import Employee from './pages/Employees';
+import Rights from './pages/Rights';
 
 function App() {
   return (
@@ -28,6 +29,13 @@ function App() {
             <Route path='doctor' element={<Doctor />} />
             <Route path='patient' element={<Doctor />} />
             <Route path='employee' element={<Employee />} />
+            {/* 权限管理 */}
+            <Route path='rights' element={<Rights />} >
+              {/* 用户管理 */}
+              <Route path='role' element={<Rights />} />
+              {/* 角色管理 */}
+              <Route path='user' element={<Rights />} />
+            </Route>
           </Route>
         </Routes>
       </div>
