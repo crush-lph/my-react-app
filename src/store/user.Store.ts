@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx"
 import { http } from '@/utils'
 import { AxiosRequestConfig } from "axios"
+import { IRole } from "@/pages/Rights/Role"
 
 declare namespace Service {
   interface register {
@@ -10,15 +11,29 @@ declare namespace Service {
   }
 }
 
+interface IUser {
+  email?: string | undefined;
+  id?: string | number | undefined
+  identity?: string | undefined
+  name?: string | number
+  avatar?: string | undefined
+  role?: IRole[]
+  adress?: string;
+  degree?: string;
+  department?: string;
+  entry_time?: string;
+  gender?: string;
+  phone?: string | number;
+  major?: string;
+  _id?: string;
+  role_name?: string;
+  role_id?: string;
+}
+
 export default class UserStore {
 
-  userInfo: {
-    email?: string | undefined;
-    id?: string | number | undefined
-    identity?: string | undefined
-    name?: string | number
-    avatar?: string | undefined
-  } = {}
+  userInfo: IUser = {}
+  // static userInfo: IUser
 
 
   constructor() {

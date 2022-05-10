@@ -1,23 +1,23 @@
 const departmentList = [
   {
     label: '儿科',
-    value: 'pediatric'
+    value: '儿科'
   },
   {
     label: '妇科',
-    value: 'gynaecology'
+    value: '妇科'
   },
   {
     label: '急诊科',
-    value: 'emergency'
+    value: '急诊科'
   },
   {
     label: '外科',
-    value: 'surgical'
+    value: '外科'
   },
   {
     label: '骨科',
-    value: 'orthopaedic'
+    value: '骨科'
   },
 
 ]
@@ -26,23 +26,23 @@ const departmentList = [
 const degreeList = [
   {
     label: '博士',
-    value: 'boshi'
+    value: '博士'
   },
   {
     label: '硕士',
-    value: 'shuoshi'
+    value: '硕士'
   },
   {
     label: '本科',
-    value: 'benke'
+    value: '本科'
   },
   {
     label: '大专',
-    value: 'dazhuan'
+    value: '大专'
   },
   {
     label: '高中及以下',
-    value: 'gaozhong'
+    value: '高中及以下'
   },
 ]
 

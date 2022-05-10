@@ -1,24 +1,14 @@
 import { Avatar, Dropdown, Layout, Menu, MenuProps, Popconfirm } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+// import { UserOutlined } from '@ant-design/icons'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 // 刷新页面后要要将store和组件重新连接
 import { observer } from 'mobx-react-lite'
-import {
-  HomeOutlined,
-  DiffOutlined,
-  EditOutlined,
-  LogoutOutlined,
-  DownOutlined,
-  IdcardOutlined,
-  UsergroupAddOutlined,
-  UserAddOutlined,
-  KeyOutlined,
-  UnlockOutlined
-} from '@ant-design/icons'
+import * as Icon from '@ant-design/icons'
 import './index.less'
 import { useStore } from '@/store'
-import React, { useEffect } from 'react'
-import { token } from '@/utils'
+import React, { ReactNode, useEffect } from 'react'
+import { http, token } from '@/utils'
+import menuList, { IMenuItem } from '@/config/MeunList'
 
 const { Header, Sider } = Layout
 
@@ -39,6 +29,10 @@ const MainLayout = () => {
     navigate('/login')
   }
 
+  const changePwd = () => {
+    http.post('/api/users/changePwd')
+  }
+
   // 下拉菜单菜单配置
   const menu = (
     <Menu>
@@ -48,14 +42,65 @@ const MainLayout = () => {
       <Menu.Item key='profile'>
         个人中心
       </Menu.Item>
-      <Menu.Item key='changePassword'>
+      <Menu.Item key='changePassword' onClick={changePwd}>
         修改密码
       </Menu.Item>
       <Menu.Item key='logOut' danger onClick={onConfirm}>
-        <LogoutOutlined />退出登录
+        <Icon.LogoutOutlined />退出登录
       </Menu.Item>
     </Menu>
   );
+
+  //@ts-ignore
+  const geticon = (iconname) => {
+    //@ts-ignore
+    return iconname && React.createElement(Icon[iconname])
+  }
+
+  const hasPerssions = (item: IMenuItem) => {
+    const { key, isPublic } = item
+    const menus = UserStore.userInfo.role?.[0]?.menus
+    // 获取权限集合
+    // const menus = item.menus
+    // 看key有没有在menus中
+
+    if (isPublic || menus?.indexOf(key) !== -1) {
+      return true
+    } else if (item.children) {
+      return !!item.children.find(child => menus.indexOf(child.key) !== -1)
+    }
+    return false
+  }
+
+  const renderMenu = (menuList: IMenuItem[] | undefined) => {
+    return menuList?.map((item: IMenuItem) => {
+      /*
+      {
+        title
+        key
+        icon?
+        children?
+      }
+      */
+      if (hasPerssions(item)) {
+        if (!item.children) {
+          return (
+            <Menu.Item key={item.key} icon={geticon(item.icon)}>
+              <Link to={item.key}>
+                {item.title}
+              </Link>
+            </Menu.Item >)
+        } else {
+          return (
+            <Menu.SubMenu title={item.title} key={item.key} icon={geticon(item.icon)}>
+              {renderMenu(item.children)}
+            </Menu.SubMenu>
+          )
+        }
+      }
+
+    })
+  }
 
   return (
     <Layout>
@@ -68,10 +113,10 @@ const MainLayout = () => {
             <div className="user">
               <div className='avatar'>
                 {/* <img src={UserStore.userInfo.avatar} alt="" /> */}
-                <Avatar size={48} icon={<UserOutlined />} />
+                <Avatar size={48} icon={<Icon.UserOutlined />} />
               </div>
               <div className='user-info'>
-                <span className='name'>{UserStore.userInfo.email}</span>
+                <span className='name'>{UserStore.userInfo.name}</span>
                 <span className='role'>{UserStore.userInfo.identity}</span>
               </div>
             </div>
@@ -79,7 +124,7 @@ const MainLayout = () => {
         </div>
       </Header>
       <Layout>
-        <Sider width={200} className="site-layout-background">
+        <Sider width={200} style={{ overflow: 'auto' }} className="site-layout-background">
           <Menu
             mode="inline"
             theme="dark"
@@ -87,32 +132,7 @@ const MainLayout = () => {
             selectedKeys={[pathname]}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item icon={<HomeOutlined />} key="/">
-              <Link to='/'>首页</Link>
-            </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="/nurse">
-              <Link to="/nurse">护士管理</Link>
-            </Menu.Item>
-            <Menu.Item icon={<UsergroupAddOutlined />} key="/doctor">
-              <Link to='/doctor'>医生管理</Link>
-            </Menu.Item>
-            <Menu.Item icon={<IdcardOutlined />} key="/patient">
-              <Link to='/patient'>患者管理</Link>
-            </Menu.Item>
-            <Menu.Item icon={<UserAddOutlined />} key="/employee">
-              <Link to='/employee'>员工注册</Link>
-            </Menu.Item>
-            {/* <Menu.Item icon={<UnlockOutlined />} key="/rights">
-              <Link to='/rights'>权限管理</Link>
-            </Menu.Item> */}
-            <Menu.SubMenu key="/rights" title="权限管理" icon={<UnlockOutlined />}>
-              <Menu.Item key="/rights/role" >
-                <Link to='/rights/role'>角色管理</Link>
-              </Menu.Item>
-              <Menu.Item key="/rights/user" >
-                <Link to='/rights/user'>用户管理</Link>
-              </Menu.Item>
-            </Menu.SubMenu>
+            {renderMenu(menuList)}
           </Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>

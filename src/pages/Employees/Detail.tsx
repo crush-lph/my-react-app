@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
-import { Badge, Descriptions, Drawer } from 'antd'
+import { Badge, Descriptions, Drawer, Tag } from 'antd'
 import moment from 'moment'
+import { Idetial } from './index'
 
-interface Idetial {
-  name?: string;
-  adress: string;
-  degree: string;
-  department?: string;
-  email?: string;
-  avatar?: string;
-  entry_time?: string;
-  identity?: string;
-  gender?: string;
-  phone?: string | number;
-  major?: string;
-}
+// interface Idetial {
+//   name?: string;
+//   adress: string;
+//   degree: string;
+//   department?: string;
+//   email?: string;
+//   avatar?: string;
+//   entry_time?: string;
+//   identity?: string;
+//   gender?: string;
+//   phone?: string | number;
+//   major?: string;
+
+// }
 
 interface Iprops {
   visible: boolean;
@@ -37,7 +39,7 @@ export default function Detail({ visible, setVisible, detail }: Iprops) {
       <Descriptions
         // title="Responsive Descriptions"
         bordered
-        column={{ xxl: 2, xl: 2, lg: 1, }}
+        column={1}
       >
         <Descriptions.Item label="姓名">{detail.name}</Descriptions.Item>
         <Descriptions.Item label="性别">{detail.gender}</Descriptions.Item>
@@ -48,7 +50,12 @@ export default function Detail({ visible, setVisible, detail }: Iprops) {
         <Descriptions.Item label="邮箱">{detail.email}</Descriptions.Item>
         <Descriptions.Item label="专业">{detail.major}</Descriptions.Item>
         <Descriptions.Item label="学历"> {detail.degree}</Descriptions.Item>
-        <Descriptions.Item label="入职时间">{moment(detail.entry_time).format('YYYY年MM月DD日')}</Descriptions.Item>
+        <Descriptions.Item label="角色">
+          <Tag color='#87d068'>
+            {detail.role_name}
+          </Tag>
+        </Descriptions.Item>
+        <Descriptions.Item label="入职时间">{moment(detail.entry_time).format('YYYY年MM月DD日 H:mm:ss')}</Descriptions.Item>
       </Descriptions>
     </Drawer>
   )

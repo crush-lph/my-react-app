@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Radio, Input, Select, DatePicker, Row, Col, Divider, message } from 'antd';
 import { degreeList, departmentList, isRequired, emailRule } from './constants'
 import { Rule } from 'antd/lib/form';
 import { useStore } from '@/store'
 import { http } from '@/utils';
+import { isFunction } from 'mobx/dist/internal';
+import { IRole } from '../Rights/Role'
+import { Idetial } from './index'
+import moment from 'moment';
 const { Option } = Select
 
 interface Iprops {
   visible: boolean;
   setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   type: string | undefined;
-  getList: () => void
+  getList: () => void;
+  user?: Idetial;
 }
 
-const App = ({ visible, setIsModalVisible, type, getList }: Iprops) => {
+const App = ({ user, visible, setIsModalVisible, type, getList }: Iprops) => {
   const [form] = Form.useForm();
   const [gender, setGenger] = useState<'male' | 'female' | undefined>()
+  const [roleList, setRoleList] = useState<IRole[]>([])
   const { UserStore } = useStore()
 
   const handleOk = () => {
@@ -24,15 +30,33 @@ const App = ({ visible, setIsModalVisible, type, getList }: Iprops) => {
       //   // console.log('嗯嗯嗯');
       //   console.log(result)
       // })
-      http.post('/api/users/register', res).then((result: any) => {
-        if (result.data.code === 1) {
-          message.error(result.data.msg)
-        } else {
-          message.success('注册成功')
-          getList()
-          setIsModalVisible(false)
-        }
-      })
+
+      switch (type) {
+        case 'add':
+          http.post('/api/users/register', res).then((result: any) => {
+            if (result.data.code === 1) {
+              message.error(result.data.msg)
+            } else {
+              message.success('注册成功')
+              getList()
+              setIsModalVisible(false)
+            }
+          });
+          break;
+        case 'edit':
+          http.post('/api/users/update', { ...res, _id: user?._id }).then((result: any) => {
+            if (result.data.code === 1) {
+              message.error(result.data.msg)
+            } else {
+              message.success('注册成功')
+              getList()
+              setIsModalVisible(false)
+            }
+          });
+          break;
+        default: break;
+      }
+
     }).catch(e => {
       console.log('请完善表单数据', e);
     })
@@ -41,6 +65,30 @@ const App = ({ visible, setIsModalVisible, type, getList }: Iprops) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    // 获取角色列表
+    getRoleList()
+    // user && form.setFieldsValue(user);
+    // console.log(user)
+    type == 'edit' && form.setFieldsValue({
+      ...user,
+      entry_time: moment(user?.entry_time)
+    })
+  }, [])
+
+  const getRoleList = () => {
+    http.get('/api/role').then(res => {
+      if (res.data.code === 0) {
+        const role = res.data.data.filter((item: any) => item.isAuth == 1)
+        setRoleList(role)
+      } else {
+        setRoleList([])
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
   return (
     <>
@@ -74,8 +122,8 @@ const App = ({ visible, setIsModalVisible, type, getList }: Iprops) => {
                 <Radio.Group onChange={(e) => {
                   setGenger(e.target.value)
                 }} value={gender}>
-                  <Radio value='male'>男</Radio>
-                  <Radio value='female'>女</Radio>
+                  <Radio value='男'>男</Radio>
+                  <Radio value='女'>女</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
@@ -137,11 +185,28 @@ const App = ({ visible, setIsModalVisible, type, getList }: Iprops) => {
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item name='entry_time'
-            rules={isRequired('请选择入职时间')}
-            label="入职时间" labelCol={{ span: 4 }}>
-            <DatePicker placeholder="请选择入职时间" />
-          </Form.Item>
+          <Row>
+            <Col span={12}>
+              <Form.Item name='entry_time'
+                rules={isRequired('请选择入职时间')}
+                label="入职时间" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+                <DatePicker placeholder="请选择入职时间" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name='role_id'
+                rules={isRequired('请选择角色')}
+                label="分配角色" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+                <Select placeholder="请选择角色" allowClear>
+                  {
+                    roleList.map((item: IRole) => (
+                      <Option key={item._id} value={item._id}>{item.name}</Option>
+                    ))
+                  }
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </>

@@ -31,7 +31,7 @@ http.interceptors.response.use((response) => {
     message.error('登录过期,请重新登录')
     token.removeToken()
     // react router并不支持在组件之外使用
-    history.push('./login')
+    history.go('./login')
   }
   return Promise.reject(error)
 })

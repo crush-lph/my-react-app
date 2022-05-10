@@ -12,7 +12,7 @@ export default function Login() {
     try {
       await LoginStore.login(values)
       navigate('/', { replace: true })
-      message.success('登录成功')
+      // message.success('登录成功')
     } catch (e) {
       message.error('登录失败')
     }

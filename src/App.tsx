@@ -11,6 +11,15 @@ import AuthCom from '@/components/AuthCom'
 import { history } from '@/utils'
 import Employee from './pages/Employees';
 import Rights from './pages/Rights';
+import AddPatient from './pages/Patient/AddPatient';
+import Patient from './pages/Patient';
+import Medical from './pages/Medical';
+import Role from './pages/Rights/Role'
+import User from './pages/Rights/User'
+import PatientList from './pages/Patient/PatientList';
+import Material from './pages/Material'
+import Registration from './pages/registration';
+
 
 function App() {
   return (
@@ -27,15 +36,20 @@ function App() {
             <Route index element={<Home />} />
             <Route path='nurse' element={<Article />} />
             <Route path='doctor' element={<Doctor />} />
-            <Route path='patient' element={<Doctor />} />
-            <Route path='employee' element={<Employee />} />
+            <Route path='patient' element={<Patient />} />
+            <Route path='patient/addPatient' element={<AddPatient />} />
+            <Route path='patient/list' element={<PatientList />} />
+
+
+            {/* <Route path='/rights/user' element={<Employee />} /> */}
+            <Route path='medical' element={<Medical />} />
             {/* 权限管理 */}
-            <Route path='rights' element={<Rights />} >
-              {/* 用户管理 */}
-              <Route path='role' element={<Rights />} />
-              {/* 角色管理 */}
-              <Route path='user' element={<Rights />} />
-            </Route>
+            <Route path='rights' element={<Rights />} />
+            {/* 用户管理 */}
+            <Route path='rights/role' element={<Role />} />
+            <Route path='rights/user' element={<Employee />} />
+            <Route path='rights/admin' element={<Material />} />
+            <Route path='registration' element={<Registration />} />
           </Route>
         </Routes>
       </div>

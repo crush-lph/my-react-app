@@ -11,18 +11,21 @@ import moment from 'moment'
 import { downLoadXLS, http } from '@/utils'
 import { AxiosRequestConfig } from 'axios';
 
-interface Idetial {
+export interface Idetial {
   name?: string;
   adress: string;
   degree: string;
   department?: string;
   email?: string;
   avatar?: string;
-  entry_date?: string;
+  entry_time?: string;
   identity?: string;
   gender?: string;
   phone?: string | number;
   major?: string;
+  _id?: string;
+  role_name?: string;
+  role_id?: string;
 }
 
 const Employee = () => {
@@ -32,6 +35,8 @@ const Employee = () => {
   const { UserStore } = useStore()
   const [currentDetail, setCurrentDetail] = useState<Idetial>()
   const [modalType, setModalType] = useState<string>()
+  const [currentUser, setCurrentUser] = useState<Idetial>()
+  const [roleNames, setRoleNames] = useState()
 
   useEffect(() => {
     getTableData()
@@ -40,8 +45,20 @@ const Employee = () => {
   // 获取表格数据
   const getTableData = () => {
     UserStore.getAllUser().then(res => {
-      setTableData(res.data)
+      const { user, role } = res.data.data
+      // user.map(item =)
+      setTableData(user)
+      initRole(role)
+
     })
+  }
+
+  const initRole = (role: any[]) => {
+    const roleNames = role.reduce((pre, cur) => {
+      pre[cur._id] = cur.name
+      return pre
+    }, {})
+    setRoleNames(roleNames)
   }
 
   // 打开详情页
@@ -58,13 +75,6 @@ const Employee = () => {
     )
   }
 
-  // 添加用户
-  const addUser = () => {
-    UserStore.addUser({}).then(res => {
-      getTableData()
-    })
-  }
-
   // 导出表格
   const exportData = () => {
     // tableData.map()
@@ -78,7 +88,7 @@ const Employee = () => {
       { label: '电话', dataIndex: 'phone' },
       { label: '邮箱', dataIndex: 'email' },
       { label: '住址', dataIndex: 'adress' },
-      { label: '入职时间', dataIndex: 'entry_date' },
+      { label: '入职时间', dataIndex: 'entry_time' },
     ]
     const sheetHeader: string[] = []
     const indexList: string[] = []
@@ -103,11 +113,13 @@ const Employee = () => {
     },
     {
       title: '入职时间',
-      dataIndex: 'entry_date',
-      key: 'entry_date',
+      dataIndex: 'entry_time',
+      key: 'entry_time',
       render: (text) => {
         // return moment(Number(text)).format('YYYY年MM月DD日')
-        return moment(text).format('YYYY年MM月DD日')
+        // return moment(text).format('YYYY年MM月DD日  ')
+        return text && moment(text).format('YYYY年MM月DD日  H:mm:ss')
+
       }
     },
     {
@@ -118,12 +130,22 @@ const Employee = () => {
     {
       title: '职位',
       dataIndex: 'identity',
-      key: 'identity'
+      key: 'identity',
+      render: (text) => {
+        return text == 'doctor' ? '医生' : '护士'
+      }
     },
     {
       title: '科室',
       dataIndex: 'department',
       key: 'department'
+    },
+    {
+      title: '角色',
+      dataIndex: 'role_id',
+      render: (text, row) => {
+        return roleNames?.[text] || '角色不存在，请重新授权'
+      }
     },
     {
       title: '操作',
@@ -144,6 +166,7 @@ const Employee = () => {
           <Button
             onClick={() => {
               setModalType('edit')
+              setCurrentUser(record)
               setIsModalVisible(true)
             }}
             icon={<EditOutlined />}
@@ -183,6 +206,7 @@ const Employee = () => {
         <Button onClick={handleAdd}>添加</Button>
       </div>
       {isModalVisible && <AddUser
+        user={currentUser}
         getList={getTableData}
         visible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
