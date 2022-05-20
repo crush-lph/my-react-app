@@ -19,42 +19,65 @@ const MenuList: IMenuItem[] = [
     isPublic: true,
   },
   {
-    key: '/nurse',
-    title: '护士信息',
+    key: '/outpatient',
+    title: '门诊管理',
     icon: 'DiffOutlined',
+    children: [{
+      title: '挂号系统',
+      key: '/outpatient/registration',
+    }, {
+      title: '门诊工作站',
+      key: '/outpatient/WS'
+    }]
   },
   {
-    key: '/doctor',
-    title: '医生管理',
-    icon: 'UsergroupAddOutlined'
+    key: '/hospitalized',
+    title: '住院管理',
+    icon: 'UsergroupAddOutlined',
+    children: [{
+      title: '病患管理',
+      key: '/hospitalized/management',
+    }, {
+      title: '医护工作站',
+      key: '/hospitalized/WS'
+    }]
   },
-  {
-    key: '/registration',
-    title: '挂号系统',
-    icon: 'IdcardOutlined'
-  },
+  // {
+  //   key: '/registration',
+  //   title: '挂号系统',
+  //   icon: 'IdcardOutlined'
+  // },
+  // {
+  //   key: '/registration',
+  //   title: '',
+  //   icon: 'IdcardOutlined'
+  // },
   {
     key: '/patient',
-    title: '患者信息',
+    title: '患者管理',
     icon: 'IdcardOutlined',
     children: [{
-      title: '患者档案',
-      key: '/patient/list',
+      title: '门诊档案管理',
+      key: '/patient/outpatient',
     }, {
-      title: '添加患者档案',
-      key: '/patient/addPatient'
+      title: '住院档案管理',
+      key: '/patient/hospitalized'
     }]
   },
   {
     key: '/medical',
     title: '药库管理',
-    icon: 'HddOutlined'
+    icon: 'HddOutlined',
+    children: [
+      {
+        key: '/medical/dispense',
+        title: '处方发药'
+      }, {
+        key: '/medical/management',
+        title: '库存管理'
+      },
+    ]
   },
-  // {
-  //   key: '/employee',
-  //   title: '员工注册',
-  //   icon: 'UserAddOutlined'
-  // },
   {
     key: '/rights',
     title: '系统管理',

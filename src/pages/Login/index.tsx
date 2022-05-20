@@ -31,7 +31,7 @@ export default function Login() {
             rules={[
               {
                 required: true,
-                message: '请输入用户名'
+                message: '请输入登录邮箱'
               }]}>
             <Input size='large' placeholder='请输入用户名' />
           </Form.Item>
@@ -45,9 +45,9 @@ export default function Login() {
             ]}>
             <Input type='password' size='large' placeholder='请输入密码' />
           </Form.Item>
-          <Form.Item >
+          {/* <Form.Item >
             <Checkbox>同意</Checkbox>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item>
             <Button

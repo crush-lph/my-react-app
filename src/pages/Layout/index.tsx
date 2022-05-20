@@ -60,10 +60,6 @@ const MainLayout = () => {
   const hasPerssions = (item: IMenuItem) => {
     const { key, isPublic } = item
     const menus = UserStore.userInfo.role?.[0]?.menus
-    // 获取权限集合
-    // const menus = item.menus
-    // 看key有没有在menus中
-
     if (isPublic || menus?.indexOf(key) !== -1) {
       return true
     } else if (item.children) {
@@ -74,14 +70,6 @@ const MainLayout = () => {
 
   const renderMenu = (menuList: IMenuItem[] | undefined) => {
     return menuList?.map((item: IMenuItem) => {
-      /*
-      {
-        title
-        key
-        icon?
-        children?
-      }
-      */
       if (hasPerssions(item)) {
         if (!item.children) {
           return (
@@ -98,7 +86,6 @@ const MainLayout = () => {
           )
         }
       }
-
     })
   }
 

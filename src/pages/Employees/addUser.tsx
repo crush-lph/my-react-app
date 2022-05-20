@@ -167,7 +167,7 @@ const App = ({ user, visible, setIsModalVisible, type, getList }: Iprops) => {
                 rules={isRequired('请选择职位')}
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}>
-                <Select>
+                <Select placeholder="请选择科室" allowClear>
                   <Option value='doctor'>医生</Option>
                   <Option value='nurse'>护士</Option>
                 </Select>

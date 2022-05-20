@@ -19,6 +19,7 @@ import User from './pages/Rights/User'
 import PatientList from './pages/Patient/PatientList';
 import Material from './pages/Material'
 import Registration from './pages/registration';
+import NotFound from './pages/NotFound';
 
 
 function App() {
@@ -34,15 +35,24 @@ function App() {
             </AuthCom>
           } >
             <Route index element={<Home />} />
-            <Route path='nurse' element={<Article />} />
-            <Route path='doctor' element={<Doctor />} />
+            <Route path='outpatient' element={<Article />} />
+            <Route path='outpatient/registration' element={<Registration />} />
+            <Route path='outpatient/WS' element={<Registration />} />
+
+            <Route path='hospitalized' element={<Doctor />} />
+            <Route path='hospitalized/management' element={<Doctor />} />
+            <Route path='hospitalized/WS' element={<Doctor />} />
+
             <Route path='patient' element={<Patient />} />
-            <Route path='patient/addPatient' element={<AddPatient />} />
-            <Route path='patient/list' element={<PatientList />} />
+            <Route path='patient/outpatient' element={<AddPatient />} />
+            <Route path='patient/hospitalized' element={<PatientList />} />
 
 
             {/* <Route path='/rights/user' element={<Employee />} /> */}
             <Route path='medical' element={<Medical />} />
+            <Route path='medical/dispense' element={<Medical />} />
+            <Route path='medical/management' element={<Medical />} />
+
             {/* 权限管理 */}
             <Route path='rights' element={<Rights />} />
             {/* 用户管理 */}
@@ -50,6 +60,8 @@ function App() {
             <Route path='rights/user' element={<Employee />} />
             <Route path='rights/admin' element={<Material />} />
             <Route path='registration' element={<Registration />} />
+
+            <Route path='*' element={<NotFound />} />
           </Route>
         </Routes>
       </div>

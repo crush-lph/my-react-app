@@ -46,7 +46,7 @@ export default function PatientList() {
       dataIndex: 'date',
       title: '建档日期',
       render: (text) => {
-        return text ? moment(text).format('YYYY年MM月DD日 H:mm:ss') : ''
+        return text ? moment(text).format('YYYY年MM月DD日 HH:mm:ss') : ''
       }
     },
     {

@@ -2,6 +2,12 @@
 
 `npx create-react-app my-react-app`
 
+npx create-react-app my-react-app
+
+cd my-react-app
+
+npm start
+
 # 上传git
 
 1、在git上创建一个空仓库

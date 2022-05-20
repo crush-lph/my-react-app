@@ -1,11 +1,37 @@
-import { Card, Divider, Form, Input, Select } from 'antd'
-import React from 'react'
+import { http } from '@/utils';
+import { Button, Card, Divider, Form, Input, Select } from 'antd'
+import React,{useState,useEffect} from 'react'
 
 const { Option } = Select
 
+export interface IOption{
+  _id:string;
+  name:string
+}
+
 export default function Registration() {
   const [form] = Form.useForm();
+  const [departList,setDepartList] = useState<IOption[]>([])
+  const [doctorList,setDoctorList] = useState<IOption[]>([])
 
+  useEffect(()=>{
+    getDoctor()
+    getDepart()
+  },[])
+
+  const getDoctor = ()=>{
+
+  }
+  
+  const getDepart =()=>{
+     http.get(`/api/department`).then(res => {
+      if (res.data.code == 0) {
+        setDepartList(res.data.data)
+      } else {
+        setDepartList([])
+      }
+    })
+  }
   return (
     <div>
       <Divider plain>
@@ -20,22 +46,28 @@ export default function Registration() {
         <Form.Item name='name' label='患者姓名'>
           <Input></Input>
         </Form.Item>
-        <Form.Item name='card_type' label='身份凭证'>
-          <Select>
-            <Option value='身份证'>
-              身份证
-            </Option>
-            <Option value='健康证'>
-              健康证
-            </Option>
-          </Select>
+        <Form.Item name='idNumber' label='身份证号'>N
+          <Input></Input>
         </Form.Item>
         <Form.Item name='department' label='科室'>
-          <Select></Select>
+          <Select>
+            {departList?.map(item=>(
+              <Option key={item._id}>{item.name}</Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item name='doctor' label='就诊医生'>
           <Select></Select>
         </Form.Item>
+        <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              size='large'
+              block>
+              挂号
+            </Button>
+          </Form.Item>
       </Form>
     </div>
 
